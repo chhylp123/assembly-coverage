@@ -403,7 +403,7 @@ uint32_t load_paf(const cov_opt_t *opt, const char* fn, q_idx_t *qI, q_idx_t *tI
     kvec_t(char) qnA; kv_init(qnA);
     if(!rc_t_init(&kt, fn)) {
         rc_t_des(&kt);
-        fprintf(stderr, "[M::%s::] ==> Cnnot open paf %s\n", __func__, fn);
+        fprintf(stderr, "[M::%s::] ==> Cannot open paf %s\n", __func__, fn);
         kv_destroy(qnA);
         return 0;
     }
@@ -474,7 +474,7 @@ uint32_t load_paf(const cov_opt_t *opt, const char* fn, q_idx_t *qI, q_idx_t *tI
     }
 
     rc_t_des(&kt); kv_destroy(qnA); kv_destroy(ciagr);
-    fprintf(stderr, "[M::%s::] ==> Loaded %s\n", __func__, fn);
+    fprintf(stdout, "[M::%s::] ==> Loaded %s\n", __func__, fn);
     return 1;
 }
 
@@ -2130,6 +2130,7 @@ void print_plot_dot(q_idx_t *qI, q_idx_t *tI, kv_uint64_t_warp *qI_hh, ist_t *l,
         fprintf(stderr, "unset cbtics\n");
         fprintf(stderr, "plot \"<echo 0 0 0\" w d lc palette z\n");
     }
+    free(alph_idx);
 }
 
 void collect_N_sites(const char* fn, q_idx_t *tI, uint64_t append_hapid, uint8_t tf, kv_warp_ma_sub_t *N_sites)
@@ -2232,7 +2233,7 @@ void contig_bin_main(const cov_opt_t *opt, char **pafs, uint32_t pafn)
     }
     if(qI_hh.n != qI->n.n) fprintf(stderr, "ERROR-ss\n");///all contigs should have binning results
 
-    for (k = m = 0; k <= l.n; ++k){
+    for (k = m = 0; k < l.n; ++k){
         if(l.a[k].is_p == 0 && l.a[k].is_i == 0) continue; 
         if(m!=k) l.a[m] = l.a[k];
         m++;
